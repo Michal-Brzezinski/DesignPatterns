@@ -1,0 +1,88 @@
+node_modules/
+package-lock.json
+
+## Build results ##
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+
+## User-specific files ##
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Visual Studio ##
+.vs/
+.vscode/
+
+## Rider (JetBrains) ##
+.idea/
+*.sln.iml
+
+## ASP.NET Scaffolding ##
+ScaffoldingReadMe.txt
+
+## Configuration files ##
+*.DotSettings.user
+*.dotCover
+*.publishsettings
+*.orig
+
+## Database files ##
+*.mdf
+*.ldf
+*.ndf
+
+## Entity Framework ##
+Migrations/
+
+## Testing ##
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Logs and dumps ##
+*.log
+*.dmp
+
+## Temporary files ##
+*.tmp
+*.bak
+*.cache
+*.dbmdl
+*.svclog
+~$*
+
+## NuGet Packages ##
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Others ##
+_ReSharper*/
+[Tt]humbs.db
+[Dd]esktop.ini
+
+## Publish ##
+publish/
+wwwroot/
+
+## Node.js (if using front-end) ##
+node_modules/
+
+## Dotnet CLI ##
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+## Secrets (local dev) ##
+secrets.json
