@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>reveal.js</title>
+
+    <!-- Odwołania do CSS są teraz poprzedzone folderem "reveal.js/" -->
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+## Slide 1
+A paragraph with some text and a [link](https://hakim.se).
+
+---
+
+## Slide 2
+
+---
+
+## Slide 3
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <!-- Skrypty JS również z prefiksem "reveal.js/" -->
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+    <script>
+      // Initialize Reveal.js z wybranymi pluginami
+      Reveal.initialize({
+        hash: true,
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes
+        ]
+      });
+    </script>
+  </body>
+</html>
