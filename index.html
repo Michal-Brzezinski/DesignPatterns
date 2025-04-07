@@ -6,42 +6,268 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>reveal.js</title>
 
-    <!-- Odwołania do CSS są teraz poprzedzone folderem "reveal.js/" -->
+    <!-- Odwołania do CSS z katalogu "reveal.js/" -->
     <link rel="stylesheet" href="reveal.js/dist/reset.css">
     <link rel="stylesheet" href="reveal.js/dist/reveal.css">
     <link rel="stylesheet" href="reveal.js/dist/theme/black.css">
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
+    
+    <style>
+      /* Zwiększamy rozmiar fragmentów o 100% (np. z 100px do 200px) */
+      .corner-img {
+        width: 200px;
+      }
+      /* Kontener slajdu ustawiony relatywnie dla pozycjonowania obrazów */
+      .slide-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      /* Pozycjonowanie obrazków w rogach */
+      .top-left  { position: absolute; top: 10px; left: 10px; }
+      .top-right { position: absolute; top: 10px; right: 10px; }
+      .bottom-left { position: absolute; bottom: 10px; left: 10px; }
+      .bottom-right { position: absolute; bottom: 10px; right: 10px; }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
-        <section data-markdown>
-          <textarea data-template>
-## Slide 1
-A paragraph with some text and a [link](https://hakim.se).
+       
+        <section data-auto-animate>
+          <section>
+            <h2 data-id="code-title">Dekorator</h2>
+            <p>Co to w ogóle jest?</p>
+          </section>
+          <!-- Pionowy slajd -->
+          <section>
+            <h2 data-id="code-title">Z definicji:</h2>
+            <p>
+              Wzorzec projektowy pozwalający dodawać nowe obowiązki obiektom poprzez umieszczanie tych 
+              obiektów w specjalnych obiektach opakowujących.
+            </p>
+          </section>
 
----
+          <section>
+            <h2 data-id="code-title">Na czym to polega?</h2>
+            <div class="text-container fragment" data-fragment-index="1">
+              <p>
+                - dodanie nowej funkcji do istniejących klas dynamicznie podczas działania programu
+              </p>
+            </div>
+            
+            <div class="text-container fragment" data-fragment-index="2">
+              <p>
+                - opakowanie oryginalnej klasy w nową klasę „dekorującą”
+              </p>
+            </div>
+          </section>
 
-## Slide 2
-
----
-
-## Slide 3
-          </textarea>
         </section>
+        
+        
+        
+        <!-- Slajd 1: Obrazek "kawa.png" -->
+        <section>
+          Zaprogramujmy sobie kawę
+          <img src="images/kawa.png" alt="Kawa" style="display: block; margin: auto;">
+        </section>
+
+        <!-- Slajd 2: Kawa z mlekiem + dodatkowe obrazy (fragmenty) w rogach -->
+        <section>
+          <div class="slide-container">
+            Albo inną
+            <!-- Centralny obraz: kawa z mlekiem -->
+            <img src="images/kawa_mleko.png" alt="Kawa z mlekiem" style="display: block; margin: auto;">
+            <!-- Obrazy fragmentów pojawią się kolejno wg ustalonego indeksu -->
+            <img class="corner-img fragment bottom-right" data-fragment-index="5" src="images/smietana.png" alt="Smietana">
+            <img class="corner-img fragment top-left" data-fragment-index="4" src="images/wanilia.png" alt="Wanilia">
+            <img class="corner-img fragment top-right" data-fragment-index="3" src="images/cukier.png" alt="Cukier">
+            <img class="corner-img fragment bottom-left" data-fragment-index="2" src="images/karmel.png" alt="Karmel">
+          </div>
+          <div class="text-container fragment" data-fragment-index="1">
+            Trochę mało...
+          </div>
+        </section>
+        <section data-auto-animate>
+          <h2 data-id="code-title">Interfejs IKawa</h2>
+          <pre data-id="code-animation">
+            <code class="hljs csharp" data-trim data-line-numbers>
+              public interface IKawa
+              {
+                  string PobierzOpis();
+                  double Koszt();
+              }
+            </code>
+          </pre>
+
+        </section>
+        <section data-auto-animate>
+          <h2 data-id="code-title">Interfejs + Klasa abstrakcyjna</h2>
+          <pre data-id="code-animation">
+            <code class="hljs csharp" data-trim data-line-numbers>
+              public interface IKawa
+              {
+                  string PobierzOpis();
+                  double Koszt();
+              }
+        
+              public abstract class KawaDecorator : IKawa
+              {
+                  protected IKawa _kawa;
+              
+                  public KawaDecorator(IKawa kawa)
+                  {
+                      _kawa = kawa;
+                  }
+              
+                  public virtual string PobierzOpis() => _kawa.PobierzOpis();
+                  public virtual double Koszt() => _kawa.Koszt();
+              }
+            </code>
+          </pre>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2 data-id="code-title">Klasa obiektu bazowego</h2>
+          <pre data-id="code-animation">
+            <code class="hljs csharp" data-trim data-line-numbers>
+              public class ProstaKawa : IKawa
+              {
+                  public string PobierzOpis() => "Prosta kawa";
+                  public double Koszt() => 5.0;
+              }
+            </code>
+          </pre>
+
+        </section>
+
+        
+        <section data-auto-animate>
+          <h2 data-id="code-title">Klasa obiektu bazowego</h2>
+          <pre data-id="code-animation" style="width: 110%; margin: auto;">
+            <code class="hljs csharp" data-trim data-line-numbers>
+              // Dekorator dodający mleko do kawy
+              public class MlekoDecorator : KawaDecorator
+              {
+                  public MlekoDecorator(IKawa kawa) : base(kawa) { }
+          
+                  public override string PobierzOpis() => _kawa.PobierzOpis() + ", mleko";
+                  public override double Koszt() => _kawa.Koszt() + 1.5;
+              }
+            </code>
+          </pre>
+
+        </section>
+        
+        <section data-auto-animate>
+          <h2 data-id="code-title">Klasa obiektu bazowego</h2>
+          <pre data-id="code-animation" style="width: 110%; margin: auto;">
+            <code class="hljs csharp" data-trim data-line-numbers>
+              // Dekorator dodający czekoladę do kawy
+              public class CzekoladaDecorator : KawaDecorator
+              {
+                  public CzekoladaDecorator(IKawa kawa) : base(kawa) { }
+          
+                  public override string PobierzOpis() => _kawa.PobierzOpis() + ", czekolada";
+                  public override double Koszt() => _kawa.Koszt() + 2.0;
+              }
+            </code>
+          </pre>
+
+        </section>
+
+      </section>
+        
+      <section data-auto-animate>
+        <h2 data-id="code-title">Klasa obiektu bazowego</h2>
+        <pre data-id="code-animation" style="width: 110%; margin: auto;">
+          <code class="hljs csharp" data-trim data-line-numbers>
+
+                static void Main(string[] args)
+                {
+                    IKawa kawa = new ProstaKawa();
+                    Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+            
+                }
+          </code>
+        </pre>
+      </section>
+      <section data-auto-animate>
+        <h2 data-id="code-title">Interfejs + Klasa abstrakcyjna</h2>
+        <pre data-id="code-animation" style="width: 110%; margin: auto;">
+          <code class="hljs csharp" data-trim data-line-numbers>
+            static void Main(string[] args)
+            {
+                IKawa kawa = new ProstaKawa();
+                Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+              
+                // Dodaj mleko do kawy
+                kawa = new MlekoDecorator(kawa);
+                Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+            }
+
+          </code>
+        </pre>
+
+      </section>
+      <section data-auto-animate>
+        <h2 data-id="code-title">Interfejs + Klasa abstrakcyjna</h2>
+        <pre data-id="code-animation" style="width: 110%; margin: auto;">
+          <code class="hljs csharp" data-trim data-line-numbers>
+            static void Main(string[] args)
+            {
+                IKawa kawa = new ProstaKawa();
+                Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+              
+                // Dodaj mleko do kawy
+                kawa = new MlekoDecorator(kawa);
+                Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+
+                // Dodaj czekoladę do kawy
+                kawa = new CzekoladaDecorator(kawa);
+                Console.WriteLine($"{kawa.PobierzOpis()} - koszt: {kawa.Koszt()} zł");
+            }
+
+          </code>
+        </pre>
+
+      </section>
+      <section data-auto-animate>
+        <h3 data-id="terminal-output">Dlaczego tak?</h3>
+        <pre data-id="terminal-output-code">
+          <code class="hljs powershell" data-trim data-line-numbers>
+      
+      Prosta kawa - koszt: 5 zł
+      Prosta kawa, mleko - koszt: 6,5 zł
+      Prosta kawa, mleko, czekolada - koszt: 8,5 zł
+      
+      C:\Users\embrz\Desktop\PK\zadania\sem4\.NET\DesignPatterns
+
+          </code>
+        </pre>
+      </section>
+      
+      <section>
+        Schemat UML przykładowego projektu implementującego Decorator
+        <img src="images/DecoratorUML.png" alt="UML" style="display: block; margin: auto;">
+      </section>
+
+
       </div>
     </div>
 
-    <!-- Skrypty JS również z prefiksem "reveal.js/" -->
+    <!-- Skrypty JS z prefiksem "reveal.js/" -->
     <script src="reveal.js/dist/reveal.js"></script>
     <script src="reveal.js/plugin/notes/notes.js"></script>
     <script src="reveal.js/plugin/markdown/markdown.js"></script>
     <script src="reveal.js/plugin/highlight/highlight.js"></script>
 
     <script>
-      // Initialize Reveal.js z wybranymi pluginami
+      // Initialize Reveal.js z włączonymi animacjami fragmentów
       Reveal.initialize({
         hash: true,
         plugins: [
